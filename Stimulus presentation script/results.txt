@@ -1,0 +1,27 @@
+123,1,cross.png,Smiling,8.6720
+123,1,AF03NES.png,Not smiling,5.3360
+123,2,AF03HAHR.png,Not smiling,1.3125
+123,3,AF05HAHR.png,Smiling,1.0064
+123,4,AF04NEHR.png,Smiling,0.7807
+123,5,AF02NEHR.png,Smiling,0.9904
+123,6,AF05DIHR.png,Not smiling,0.8272
+123,7,cross.png,Not smiling,2.3640
+123,1,AF03NES.png,Not smiling,2.6743
+123,2,AF03HAHR.png,Smiling,1.2441
+123,3,AF05HAHR.png,Not smiling,0.5610
+123,4,AF04NEHR.png,Smiling,0.4541
+123,5,AF02NEHR.png,Smiling,0.4930
+123,6,AF05DIHR.png,Not smiling,0.4590
+123,1,AF03NES.png,Smiling,6.7201
+123,2,AF03HAHR.png,Not smiiiling,0.6163
+123,3,AF05HAHR.png,Smiling,0.4098
+123,4,AF04NEHR.png,Not smiiiling,0.4625
+123,5,AF02NEHR.png,Smiling,0.4558
+123,6,AF05DIHR.png,Smiling,0.4633
+123,1,AF03NES.png,Smiling,2.5342
+123,2,AF03HAHR.png,Smiling,1.0734
+123,3,AF05HAHR.png,Smiling,1.2579
+123,4,AF04NEHR.png,Not smiiiling,1.1900
+123,5,AF02NEHR.png,Not smiiiling,0.9055
+123,6,AF05DIHR.png,Not smiiiling,1.7780
+
