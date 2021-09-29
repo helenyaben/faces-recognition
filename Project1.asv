@@ -1,0 +1,23 @@
+clc; clear all;
+%% Read and basic manipulation
+
+% Read the file.txt
+X = readtable('results-Alex.txt');
+
+% 
+att = {'id', 'photo', 'file_ext', 'category', 'response_time'};
+
+X.Properties.VariableNames = att;
+
+% Get the 
+[C, ai, ci] = unique(X(:, 'id'));
+
+function [X] = setlabels(X, varargin)
+    switch nargin 
+        case 0
+            att = {'id', 'photo', 'file_ext', 'category', 'response_time'};
+            X.Properties.VariableNames = att;
+        case 1
+            att = varargin{1
+            
+            
