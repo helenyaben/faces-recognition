@@ -2,7 +2,9 @@ clc; clear all;
 %% Read and basic manipulation
 
 % Read the file.txt
-X = readtable('results-Alex.txt');
+
+% Remember to add to path the Stimulus folder.
+X = readtable('results.txt');
 
 
 
@@ -20,46 +22,23 @@ for i = 1:length(L.id)
 end
 
 
-% Concat two tables thay can be or not normalized but they must both be 
-% the same. 
+%% Concat two tables to check and have more data 
 G = concatTables(Y, L);
 
 disp('we are here')
+
+%% Feature nomralization
 [T, summary] = featureNorm(G);
 size(T)
 
-
+%% Create Real categories
 T = realCateg(T);
 size(T)
 
 
 
-%% Create Real categories
 
-% Create a subset of the data set
-K = T(30:90,:);
 
-% We have to get the real categories, we have 3 different categoires 
-% *SAS.JPG --> Sad category
-% *HAS.JPG --> Happy Category
-% *NES.JPG --> Neutral Category
-
-s_patt = 'SAS.JPG';
-h_patt = 'HAS.JPG';
-n_patt = 'NES.JPG';
-
-s_vec = contains(K.file_ext,s_patt);
-h_vec = contains(K.file_ext,h_patt)*2;
-n_vec = contains(K.file_ext,n_patt)*3;
-
-Input = s_vec + h_vec + n_vec;
-V = [1 2 3];
-S = {'Sad', 'Happy', 'Neutral'};
-StrOut = repmat({'Unknown'}, size(Input));
-[tf, idx] = ismember(Input, V);
-StrOut(tf) = S(idx(tf));
-
-K.RealCat = StrOut;
 
 
 

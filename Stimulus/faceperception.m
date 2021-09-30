@@ -57,10 +57,13 @@ handles.output = hObject;
 
 %% BEGIN PARAMETERS
 % enter the full path to your image database directory
-image_folder = 'C:\Users\G531\Documents\1 - Universities\3 - DTU\002 - Course\04 - Cognitive Modelling\04-Projects\Project-1\Stimulus presentation script\data';
+cdir = fileparts(mfilename('fullpath'));
+image_folder = fullfile(cdir, '/stimuli');
 
 % enter the file extension of your files
 file_pattern = '*.JPG';
+
+
 
 % enter the two options (left will correspond to the 'z' key, right to the
 % 'm' key
