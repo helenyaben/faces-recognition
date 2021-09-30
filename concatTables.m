@@ -1,6 +1,7 @@
 function [X] = concatTables(X,varargin)
-%CONCATTABLE concatenates table before the feature normalization
-%   At least it must be provided 1 argument, your original table.
+%CONCATTABLE concatenates two or more tables. They can be normalized or not
+% All Tables MUST be the same type (norm or not). 
+%   At least it must be provided 1 Table, your original table.
 %   Function used in case we have more than 1 results.txt and we have
 %   already start working with it. 
 

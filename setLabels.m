@@ -6,7 +6,7 @@ function [X] = setLabels(X, varargin)
         case 0
             error('Insufficient inputs')
         case 1
-            att = {'id', 'photo', 'file_ext', 'category', 'response_time'};
+            att = {'id', 'photo', 'file_ext', 'GuesCat', 'time'};
             X.Properties.VariableNames = att;
         case 2
             att = varargin{1};
