@@ -6,120 +6,110 @@ clc; clear all;
 % Remember to add to path the Stimulus folder.
 X = readtable('results.txt');
 
+%{
+R-Happy: 140
+R-Sad: 140
+R-Neutral: 48
+%}
 
+%% Set labels two our data
+X = setLabels(X);
 
-% Create different tables to checj¡k the concat function
-Y = setLabels(X);
-L = setLabels(X);
-
-
-for i = 1:length(L.id)  
-    if i > 150 
-        L.id(i) = 123456789;
-    else 
-        L.id(i) = 987654321;
-    end
-end
-
-
-%% Concat two tables to check and have more data 
-G = concatTables(Y, L);
-
-disp('we are here')
+%% Concat two or mora tables 
+% If we have more than one table or script to check and have more data 
+% G = concatTables(Y, L);
 
 %% Feature nomralization
-[T, summary] = featureNorm(G);
-size(T)
+[T, summary] = featureNorm(X);
+% Check the 10 first rows
+T(1:10,:)
+% check the sumary
+summary
 
 %% Create Real categories
 T = realCateg(T);
-size(T)
+% check the first 10 rowz
+T(end-10:end,:)
 
+%% Plot some data
+% Look ot histograms are not really histograms, we should specify that
+% folowws normalization and probability as below. Not sure, in the
+% normalization data we already have it normalized 
+plotTime(T, 'time');
+plotTime(T, 'norm');
+plotTime(T, 'join');
 
+% Plot probability density function (pdf) for skewed gaussian distribution
+figure()
+x = summary(1,:).id;
+y = T(T.id == summary(1,:).id,:).time;
+pd = fitdist(y,'Norm');
+x_values = 0:0.01:7;
+p = pdf(pd,x_values);
+plot(x_values,p)
+hold on 
+histogram(T(T.id == summary(1,:).id,:).time, 'Normalization','probability')
+% Not exactly the same. 
 
+% Useful links
+% https://stats.stackexchange.com/questions/435114/generating-skew-normal-distribution-in-matlab
+% https://se.mathworks.com/help/stats/pearsrnd.html
+% https://se.mathworks.com/help/stats/fitdist.html#btu538h-distname
 
+% It could be easier if we have the pdf of each histogram to make a better
+% mapping
 
+%{
+As we can see in the plots, the distribution tends to follow a Gaussian
+normal distribution skewwes to the lefs, that¡s why we can normalize it in
+the norm distribution Z = x-mu(k)/sigma(k) beeing k subindex the person id.
 
+As each one tends to have sligthly different values of mu and sigma, and we
+want a continuous strength indicator, we can map the probability densifty
+functions, in that case the histograms, into a range from 0 to 1 with the
+equation: 'maping equation.PNG'. so we'll have a strength indicator, from
+now on Si, Si(k). for each person. Once we have Si for each one we'll
+calculate the mean  sum(Si(1) to Si(k))/k.
+Look out, we'll need one for the Happy and one different to Sad. Our truly
+range goes from [-1,1] but as the time respone will be in the same
+conficdece interval and some in a while in the same value, we need to
+separate them within the two categories. 
+%}
+I = imread('maping equation.PNG');
+figure()
+imshow(I)
 
+%% Tasks 
+%{
+- Try to identify the missclassifications. In each experiment we will have
+missclasifications, meaning that the person doing the actual experiment
+wanted to classy the image as a happy image but he/she actually hit the
+wrong key. 
 
+- Identify weird pre-clasifications. If we pre-classified a Neutral image
+as Sad or Happy and none of the people that have done the experiment has
+actually classified that especific image as the pre-classified category it
+should be better to: change the category or either throw it to the bin.
 
-%%
-t = table('Real Cat');
-class(t)
-table  = cell2table(cell(0,1), 'VariableNames', {'Exp'});
+- Get rid from the images that have been discharged. When we filtered our
+data, either on the normalization (because it was out of range) or in some
+of the missclassification errors. The problem is that we have only a few
+experiments, say 5, so if one of the images has been thown away only once
+when we calculate the Si mean the value will be reduced a lot. In addition,
+if a image has been discharged because of the reponse time, there is a high
+probability that some of the other people has also took to many time to
+categorize it, so when doing the Si mean the value will be more reduced.
 
-cel = {'HAP'}
-p = table(cel)
+- Create a function that maps the data into a Si depending on the actual
+category following the maping equation. So if by chance we find a better
+way to do it it's easier to change.
 
-for i = 1:length(y)
-    if y(i) == 1
-        t  = {'HAP'};
-    else
-        % nothing
-    end
-    
+-PCA. 
+Patch transfer is a class to vectorize an image, only have to specify the
+patch dimension, in this case i think is 1x1, it should also work with that
 
-end
-
-%%
-
-
-
-
-
-
-
-
-%%
-% Check the unique values for the table, we don't want repeated data
-[C, ~, ci] = unique(G(:, 'id'));
-means = accumarray(ci, G.time, [], @mean);
-stddevs = accumarray(ci, G.time, [], @std);
-output = [C num2cell([means stddevs])];
-output.Properties.VariableNames = {'id', 'mean', 'sigma'};
-
-
-T = innerjoin(G,output);
-
-S = T(1:10,:);
-
-S(S.time > 5 & S.time < 0.8, :) = [];
-
-
-N = T(1:10,:);
-% We can use than but with the other 
-C = featureNorm(N, 2, 1);
-
-
-%% 
-T.norm = (T.time-T.mean);
-T.norm = T.norm./T.sigma;
-
-T.norm
-
-
-%mean(G.time)
-% T = groupfilter(G, 'id', 'time',@(x) mean(x));
-
-
-
-%%
-addnum(2, 3, 5)
-
-
-function out = addnum(mat,n, p)
-if nargin < 2
-  n = 3;
-  p = 4;
-elseif nargin < 3 
-  p = 10;
-else 
-    % do nothing
-end
-out = mat+n + p;
-end
-
-            
-            
+- Verify all images have the same size (it shouldn't be a problem for the
+class) 
+%}
             
             
