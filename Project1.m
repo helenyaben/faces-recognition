@@ -20,7 +20,30 @@ X = setLabels(X);
 % G = concatTables(Y, L);
 
 %% Feature nomralization
+figure()
+plotTime(X, 'join')
+title('Normal times with outliers') 
+
+% Check if it's better to apply the log to all the data or to the data with
+% non-outliers.
+X_nout = X;
+toDelate = X_nout.time > 3 | X_nout.time < 0.2;
+X_nout(toDelate, :) = [];
+
+figure()
+plotTime(X_nout, 'join')
+title('Normal time without outliers')
+
+
+
+
+
+
+
+
+
 [T, summary] = featureNorm(X);
+
 % Check the 10 first rows
 T(1:10,:)
 % check the sumary

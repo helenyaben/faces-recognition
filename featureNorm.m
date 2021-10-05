@@ -14,7 +14,7 @@ else
     %Do nothing
 end
 
-
+% Get rid of the outliers before normalizing the data
 % Delate the rows that are above or below the max and min values
 % respectively.
 toDelate = X.time > max | X.time < min;

@@ -39,7 +39,7 @@ elseif nargin == 2
     elseif s == 'join'
         figure(); clf;
         for i = 1:z
-            histogram(T(T.id == id(i),:).norm, 50);
+            histogram(T(T.id == id(i),:).time, 50); % We have to switch between time and norm manually I have time make a function to do it with an argument
             hold all;
         end
         title('Overlaped Histogams')
