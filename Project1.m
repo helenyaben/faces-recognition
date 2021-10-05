@@ -85,6 +85,7 @@ imshow(I)
 missclasifications, meaning that the person doing the actual experiment
 wanted to classy the image as a happy image but he/she actually hit the
 wrong key. 
+% With the time response.
 
 - Identify weird pre-clasifications. If we pre-classified a Neutral image
 as Sad or Happy and none of the people that have done the experiment has

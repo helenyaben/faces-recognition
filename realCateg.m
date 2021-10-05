@@ -13,7 +13,11 @@ s_patt = 'SAS.JPG';
 % Happy Pattern
 h_patt = 'HAS.JPG';
 % Neutral pattern
-n_patt = 'NES.JPG';
+nsad_patt = '_SAS.JPG';
+nhap_patt = '_HAP.JPG';
+
+% We need the categories that decided 
+
 
 % We create a binary vectors, 1 if the files contains the pattern 0
 % otherwise. 
@@ -24,14 +28,16 @@ s_vec = contains(T.file_ext,s_patt);
 h_vec = contains(T.file_ext,h_patt)*2;
 % Neutral "binary" vector, 3 if the files contains the pattern 0
 % otherwise. 
-n_vec = contains(T.file_ext,n_patt)*3;
+nsad_vec = contains(T.file_ext,nsad_patt)*3;
+
+nhap_vec = contains(T.file_ext,nhap_patt)*4;
 
 % We create a vector as the sum of the others
-Input = s_vec + h_vec + n_vec;
+Input = s_vec + h_vec + nsad_vec + nhap_vec;
 
 % Create two vectors to map each value with the corresponedent category
-V = [1 2 3];
-Cat = {'R-Sad', 'R-Happy', 'R-Neutral'};
+V = [1 2 3 4];
+Cat = {'R-Sad', 'R-Happy', 'R-Sad', 'R-Happy'};
 % Create a cell array all with unknown values.
 StrOut = repmat({'Unknown'}, size(Input));
 % Get the unique values and indexes to create the unique vector if unique
