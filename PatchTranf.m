@@ -1,5 +1,6 @@
 classdef PatchTranf
-    %PATCHCLASS vectirize a matrix and unvectorize a matrix 
+    %PATCHCLASS vectirize a matrix and unvectorize a matrix, storing it's 
+    %previous size
     %   Detailed explanation goes here
     
     properties
@@ -36,8 +37,8 @@ classdef PatchTranf
     
     methods 
         function obj = PatchTranf(image,patch)
-            %UNTITLED Construct an instance of this class
-            %   Detailed explanation goes here
+            %PatchTranf Construct an instance of this class
+            %   patch must be a (1,2) array
             obj.Image = image;
             obj.PatchDim = patch;
             obj.X = obj.precut(image, patch);

@@ -10,7 +10,6 @@ N2 = ceil(z/N1);
 
 % Create a figure to store the suplots 
 if nargin < 2
-    figure(); clf;
     for i = 1:z
         subplot(N2, N1, i)
         histogram(T(T.id == id(i),:).time, 50);
@@ -18,8 +17,7 @@ if nargin < 2
     end
     sgtitle('Time Distribution');
 elseif nargin == 2
-    if s == 'time'
-        figure(); clf;
+    if strcmp(s, 'time')
         for i = 1:z
             subplot(N2, N1, i)
             histogram(T(T.id == id(i),:).time, 50);
@@ -27,8 +25,7 @@ elseif nargin == 2
         end
         sgtitle('Time Distribution');
     
-    elseif s == 'norm'
-        figure(); clf;
+    elseif strcmp(s, 'norm')
         for i = 1:z
             subplot(N2, N1, i)
             histogram(T(T.id == id(i),:).norm, 50);
@@ -36,10 +33,30 @@ elseif nargin == 2
         end
         sgtitle('Norm Time Distribution');
         
-    elseif s == 'join'
-        figure(); clf;
+    elseif strcmp(s, 'joinTime')
         for i = 1:z
-            histogram(T(T.id == id(i),:).time, 50); % We have to switch between time and norm manually I have time make a function to do it with an argument
+            histogram(T(T.id == id(i),:).time, 50); 
+            hold all;
+        end
+        title('Overlaped Histogams')
+        hold off;
+    elseif strcmp(s, 'joinNorm')
+        for i = 1:z
+            histogram(T(T.id == id(i),:).norm, 50);
+            hold all;
+        end
+        title('Overlaped Histogams')
+        hold off;
+    elseif strcmp(s, 'joinLog')
+        for i = 1:z
+            histogram(T(T.id == id(i),:).log, 50);
+            hold all;
+        end
+        title('Overlaped Histogams')
+        hold off;
+    elseif strcmp(s, 'joinNLog')
+        for i = 1:z
+            histogram(T(T.id == id(i),:).Nlog, 50);
             hold all;
         end
         title('Overlaped Histogams')

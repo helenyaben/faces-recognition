@@ -1,25 +1,6 @@
-function [X_out, output] = featureNorm(X,max, min)
+function [X_out, output] = featureNorm(X)
 %TIMENORM Normalized the time respone for each person.
 %   X is the original results table
-%   min--> Threshhold. Below min value we'll consider a point an
-%   outlier.
-%   max-->min--> Threshhold. Above max value we'll consider a point an
-%   outlier.
-if nargin < 2
-    max = 3;
-    min = 0.2;
-elseif nargin < 3
-    min = 0.2;
-else
-    %Do nothing
-end
-
-% Get rid of the outliers before normalizing the data
-% Delate the rows that are above or below the max and min values
-% respectively.
-toDelate = X.time > max | X.time < min;
-X(toDelate, :) = [];
-
 
 % Now we can calculate the mean and the standard deviation for the
 % different persons
@@ -42,8 +23,15 @@ X_out = innerjoin(X,output);
 X_out.norm = (X_out.time-X_out.mean);
 X_out.norm = X_out.norm./X_out.std;
 
+
+
+
+
+
 % Remove variables we no longer need
 X_out = removevars(X_out,{'mean' , 'std'});
+
+%
 
 
 % We can now check if there are some outliers with the standard deviation.
