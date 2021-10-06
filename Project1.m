@@ -16,12 +16,11 @@ R-Neutral: 48
 %% Set labels to our data
 X = setLabels(X);
 
-%% Get the names from the discarted images 
+%% Get the names from the discarted images and trhow them away from the main table
 [X, Im] = discImages(X);
 
 %% Vectorize the images 
-
-P = X(20:40,:);
+P = X(1:20, :);
 M = im2mat(P);
 
 

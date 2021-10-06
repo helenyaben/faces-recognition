@@ -28,22 +28,35 @@ M = zeros(x,y);
 % Specify the patch dimesions. 
 p = [1, 1];
 % Loop through all the unique files of our data
-for i = 1:y
-    % Specify the image path
-    im_path = fullfile(im_folder, files{i})
-    % read the image
-    im = imread(im_path);
-    % Transform the rgb image to gray scale
-    bim = rgb2gray(im);
-    % Initializiate the class with that specific image 
-    I = PatchTranf(bim, [1,1]);
-    % Vectorize the image
-    I_vec = I.vectorize;
-    % Add vectorized image 
-    M(:,i) = I_vec;
-    clear im bim I I_vec
-
+count = 1;
+n_p = 0;
+while count ~= y
+    try
+        % Specify the image path
+        im_path = fullfile(im_folder, files{count});
+        % read the image
+        im = imread(im_path);
+        % Transform the rgb image to gray scale
+        bim = rgb2gray(im);
+        % Initializiate the class with that specific image
+        I = PatchTranf(bim, [1,1]);
+        % Vectorize the image
+        I_vec = I.vectorize;
+        % Add vectorized image
+        M(:,count) = I_vec;
+        sprintf('Image %d, file_ext: %s is being processed',count, files{count})
+        count = count + 1;
+    catch
+        disp('Error');
+        sprintf('Image %d, file_ext: %s CANNOT be procesed',count, files{count})
+        count = count + 1;
+        n_p = n_p + 1;
+    end
 end
 
+sprintf('%d Images could not be processed',n_p)
+
     
+end
+
     
