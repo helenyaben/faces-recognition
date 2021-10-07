@@ -54,11 +54,12 @@ figure()
 histogram(I.mean, 50)
 title('Pooled histograms confiisji')
 
-[A, B] = sIndex(I);
-figure()
-histogram(A.mean)
+A = sIndex(I);
 
 
+A.RealCat
+
+ismemeber(
 
 
 %%

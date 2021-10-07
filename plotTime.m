@@ -9,6 +9,7 @@ N1 = ceil(sqrt(z));
 N2 = ceil(z/N1);
 
 % Create a figure to store the suplots 
+figure()
 if nargin < 2
     for i = 1:z
         subplot(N2, N1, i)
@@ -49,14 +50,14 @@ elseif nargin == 2
         hold off;
     elseif strcmp(s, 'joinLog')
         for i = 1:z
-            histogram(T(T.id == id(i),:).log, 50);
+            histogram(T(T.id == id(i),:).logTime, 50);
             hold all;
         end
         title('Overlaped Histogams')
         hold off;
     elseif strcmp(s, 'joinNLog')
         for i = 1:z
-            histogram(T(T.id == id(i),:).Nlog, 50);
+            histogram(T(T.id == id(i),:).logNorm, 50);
             hold all;
         end
         title('Overlaped Histogams')

@@ -18,6 +18,8 @@ mu_log = accumarray(ci, X.logTime, [], @mean);
 s_log = accumarray(ci, X.logTime, [], @std);
 % Create a table with the means and standard deviation for each id
 output_log = [C num2cell([mu_log s_log])];
+output_log.Properties.VariableNames = {'id', 'mean_log', 'std_log'};
+
 
 
 % Calculte the normal time mean for each different id.
@@ -26,8 +28,9 @@ mu = accumarray(ci, X.time, [], @mean);
 s = accumarray(ci, X.time, [], @std);
 % Create a table with the means and standard deviation for each id
 output_time = [C num2cell([mu s])];
+output_time.Properties.VariableNames = {'id', 'mean', 'std'};
 
-output = [output_log output_time]
+output = [output_log, output_time(:, 2:end)];
 
 % Set the variable names of the table
 output.Properties.VariableNames = {'id', 'mean', 'std', 'mean_log', 'std_log'};
@@ -42,14 +45,14 @@ X_out.norm = X_out.norm./X_out.std;
 
 % Create a new column with the normalized time
 X_out.logNorm = (X_out.logTime-X_out.mean_log);
-X_out.logNorm = X_out.lognorm./X_out.std;
+X_out.logNorm = X_out.logNorm./X_out.std_log;
 
 
 
 % Remove variables we no longer need
-X_out = removevars(X_out,{'mean' , 'std'});
+X_out = removevars(X_out,{'mean' , 'std', 'mean_log', 'std_log'});
 
-%
+
 
 
 % We can now check if there are some outliers with the standard deviation.
