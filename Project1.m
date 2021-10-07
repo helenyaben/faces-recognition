@@ -23,11 +23,13 @@ X = setLabels(X);
 P = X(1:20, :);
 M = im2mat(P);
 
-
-
-
 %% Delete the images above and below a specific threshold
-[X, Xdel] = initialThreshold(X,2.5);
+
+figure()
+plotTime(X, 'joinTime')
+title('Normal times') 
+
+[X, Xdel] = initialThreshold(X);
 
 
 
@@ -55,11 +57,11 @@ title('Logarithm of times without normalization')
 
 X_temp = T([1:5, 370:374], :);
 
-
+%{
 s = accumarray(ci, X.time, [], @std);
 ci = [0 0 0 0 0 1 1 1 1 1];
 c = accarray(ci, X_temp.time, [], X_temp.norm > 0.8);
-
+%}
 % Plot normalized time
 subplot(2,2,3:4)
 plotTime(T, 'joinNorm')
