@@ -18,16 +18,16 @@ Sad(:,'RealCat') = [];
 % Calculate sigma and standard deviations: Calculated with the happy and
 % sad matrices. It can also be calculated as a hole. From X 
 % Mean and std from Happy
-%mu = mean(Hap.mean);
+mu = mean(Hap.mean);
 sigma = std(Hap.mean);
 % Add the columns to the table 
-%Hap.mu = ones(length(Hap.mean),1)*mu;
+Hap.mu = ones(length(Hap.mean),1)*mu;
 Hap.sigma = ones(length(Hap.mean),1)*sigma;
 % Mean and std from Sad
-%mu = mean(Sad.mean);
+mu = mean(Sad.mean);
 sigma = std(Sad.mean);
 % Add the columns to the table
-%Sad.mu = ones(length(Sad.mean),1)*mu;
+Sad.mu = ones(length(Sad.mean),1)*mu;
 Sad.sigma = ones(length(Sad.mean),1)*sigma;
 
 

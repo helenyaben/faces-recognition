@@ -46,19 +46,18 @@ histogram(T.logNorm)
 % Normalized logtime data
 plotTime(T,'joinNLog');
 
-plotTime(T,'norm');
+plotTime(T,'no');
 
 % Normalized norlmal time
 plotTime(T, 'joinNorm');
 
 %% Pool histograms
 
-I = poolDist(T, 'mean2');
+I = poolDist(T, 'mean');
 figure()
 histogram(I.mean, 50)
 title('Pooled histograms confiisji')
 
-%% 
 [A, B] = sIndex(I);
 figure()
 histogram(A.mean)
