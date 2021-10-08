@@ -53,36 +53,18 @@ plotTime(T, 'joinNorm');
 
 %% Pool histograms
 
-I = poolDist(T, 'mean2');
+I = poolDist(T, 'mean2', 'logNorm');
 figure()
 histogram(I.mean, 50)
-title('Pooled histograms confiisji')
+title('Pooled histograms mean technic')
 
 %% 
-[A, B] = sIndex(I);
-figure()
-histogram(A.mean)
+A = sIndex(I);
 
-%{
-Azeros = A.mean > (A.mu + 3 * A.sigma);
-A2 = A.mean < (A.mu + A.sigma) & A.mean > (A.mu - 3*A.sigma);
-Aones = A.mean < (A.mu - 3*A.sigma);
-%}
+% 
+writetable(A,'sindex-normtime-meanMethod.txt');
 
-A.sindex = zeros(length(A.mean),1);
 
-for i = 1:length(A.mean)
-    if A{i,'mean'} > (A{i,'mu'} + 3*A{i, 'sigma'})
-        A.sindex(i) = 0;
-    elseif (A{i,'mean'} < (A{i,'mu'} + 3*A{i, 'sigma'})) && (A{i,'mean'} > (A{i,'mu'} - 3*A{i, 'sigma'}));
-        A.sindex(i) = 1 - (A{i,'mean'}/(A.mu(i) + (3*A{i, 'sigma'})));
-    elseif A{i,'mean'} < (A{i,'mu'} - 3*A{i, 'sigma'})
-        A.sindex(i) = 1;
-    else 
-        A.sindex(i) = 999999999999;
-
-    end 
-end 
 
 
 
@@ -100,6 +82,8 @@ end
 
 P = I(1:3,:);
 sum(P{:,2:end},2)
+
+
 
 
 

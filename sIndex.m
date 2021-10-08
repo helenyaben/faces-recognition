@@ -1,6 +1,10 @@
-function [Hap, Sad] = sIndex(X)
+function [M] = sIndex(X,nsigma)
 %SIND Creates a continuous strength index from the time responeses.
 %   Detailed explanation goes here
+
+if nargin < 2
+    nsigma = 3;
+end
 
 % Delete unecessary info
 X(:,2:end-1) = [];
@@ -14,22 +18,58 @@ Sad = X(ismember(X.RealCat, 'R-Sad'),:);
 Hap(:,'RealCat') = [];
 Sad(:,'RealCat') = [];
 
-
 % Calculate sigma and standard deviations: Calculated with the happy and
 % sad matrices. It can also be calculated as a hole. From X 
 % Mean and std from Happy
-mu = mean(Hap.mean);
-sigma = std(Hap.mean);
-% Add the columns to the table 
-Hap.mu = ones(length(Hap.mean),1)*mu;
-Hap.sigma = ones(length(Hap.mean),1)*sigma;
+% Hap_mu = mean(Hap.mean);
+Hap_std = std(Hap.mean);
 % Mean and std from Sad
-mu = mean(Sad.mean);
-sigma = std(Sad.mean);
-% Add the columns to the table
-Sad.mu = ones(length(Sad.mean),1)*mu;
-Sad.sigma = ones(length(Sad.mean),1)*sigma;
+% Sad_mu = mean(Sad.mean);
+Sad_std = std(Sad.mean);
 
+
+% Change some labels for better understanding.
+Hap.Properties.VariableNames = {'f_ext', 'time'};
+Sad.Properties.VariableNames = {'f_ext', 'time'};
+
+% Create a new column on each table class for the strngth indicator
+Hap.sindex = zeros(length(Hap.time),1);
+Sad.sindex = zeros(length(Sad.time),1);
+
+% Create the stength indicator for happy photos
+for i = 1:length(Hap.time)
+    if Hap{i,'time'} <  0
+        Hap.sindex(i) = 1;
+    elseif (Hap{i,'time'} < nsigma*Hap_std) && (Hap{i,'time'} > 0)
+        Hap.sindex(i) = 1 - (Hap{i,'time'}/(nsigma*Hap_std));
+    elseif Hap{i,'time'} > nsigma*Hap_std
+        Hap.sindex(i) = 0;
+    else 
+        Hap.sindex(i) = NaN;
+    end 
+end 
+
+% Create the strength indicator for Sad photos
+for i = 1:length(Sad.time)
+    if Sad{i,'time'} <  0
+        Sad.sindex(i) = -1;
+    elseif (Sad{i,'time'} < nsigma*Sad_std) && (Sad{i,'time'} > 0)
+            Sad.sindex(i) = -1 + (Sad{i,'time'}/(nsigma*Sad_std));
+    elseif Sad{i,'time'} > nsigma*Sad_std
+        Sad.sindex(i) = 0;
+    else 
+        Sad.sindex(i) = NaN;
+    end 
+end 
+
+
+
+% Join both tables
+M = [Hap; Sad];
+% Drop the time column
+M(:,{'time'}) = [];
+% Sort rows on sindex values
+M = sortrows(M,2);
 
 
 
