@@ -4,7 +4,7 @@ clc; clear all;
 % Read the file.txt
 
 % Remember to add to path the Stimulus folder.
-X = readtable('results_All.txt');
+X = readtable('cleaned_data.txt');
 
 %{
 R-Happy: 140
@@ -53,17 +53,19 @@ plotTime(T, 'joinNorm');
 
 %% Pool histograms
 
-I = poolDist(T, 'mean2', 'logNorm');
+I = poolDist(T, 'conf', 'logNorm');
 figure()
-histogram(I.mean, 50)
-title('Pooled histograms mean technic')
+A = histogram(I.mean, 50);
+title('Pooled histograms time, conf thecninc')
+%saveas(gcf,('sindex-normtime-mean2Method.png'));
+%imwrite(histogram(I.mean, 50), 'sindex-normtime-meanMethod');
 
 %% 
 A = sIndex(I);
 
 % 
-writetable(A,'sindex-normtime-meanMethod.txt');
-
+writetable(A,'sindex-normtime-confMethod.txt');
+head(A)
 
 
 

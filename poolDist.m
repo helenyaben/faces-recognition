@@ -68,26 +68,32 @@ else
     error('Please select between: norm, logNomr');
 end
 
-T = fillmissing(T, 'constant', 0, 'DataVariables', @isnumeric);
+
 
 % Create a new column with the means of the time responses. The mean is
 % calculated with the data that we have. If some value is missing due a
 % classification, error, the total number will be N-1
 
 if strcmp(m, 'mean')
+    T = fillmissing(T, 'constant', 0, 'DataVariables', @isnumeric);
     T.sum = sum(T{:,2:end},2);
     T.count = sum(T{:,2:end-1}~=0,2);
     T.mean = T.sum./T.count;
     T(:,{'sum', 'count'}) = [];
 elseif strcmp(m, 'mean2')
+    T = fillmissing(T, 'constant', 0, 'DataVariables', @isnumeric);
     % It calculates the mean dividing with the total number of instances
     T.sum = sum(T{:,2:end},2);
     T.count = sum(T{:,2:end-1}== 0|T{:,2:end-1}~= 0 ,2);
     T.mean = T.sum./T.count;
     T(:,{'sum', 'count'}) = [];
 elseif strcmp(m,'conf')
-    % We have to substract the negative value and add it to the final
-    % value, if not we'll have a skeweed histogram
+    T1 = T.f_ext;
+    T(:,{'f_ext'}) = [];
+    T = T{:,:};
+    T = fillmissing(T, 'linear');
+    T = array2table(T)
+    T = [T1 T];
     T.prod = prod(T{:,2:end},2);
     a = sum(T.prod);
     T.mean = T.prod/a;

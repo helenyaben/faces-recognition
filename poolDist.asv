@@ -2,13 +2,14 @@ function [T] = poolDist(X, m, n)
 %POOLDIST Pools different gaussian distributions into one.
 %   Possible values for m, second argument:
 %   mean--> Avarages the time responses for each photo, not considering the
-%   fotos where we have 0 values. (default)
+%   fotos where we have 0 values. (DEFAULT)
 %   mean2--> Avarages the time responses for each photo, considering the
 %   fotos where we have 0 values. Always sum(t)/N
 %   conf--> Avarages the time responses for each photo, with the conf
 %   function.
 %   Possible values for n, third argument:
-%   norm-->
+%   norm--> Uses the normalized times of each subject. (DEFAULT)
+%   logNorm --> Uses the logarithmic times of each sbject.
 
 
 % Set some default values 
@@ -67,26 +68,29 @@ else
     error('Please select between: norm, logNomr');
 end
 
-T = fillmissing(T, 'constant', 0, 'DataVariables', @isnumeric);
 
 % Create a new column with the means of the time responses. The mean is
 % calculated with the data that we have. If some value is missing due a
 % classification, error, the total number will be N-1
 
 if strcmp(m, 'mean')
+    T = fillmissing(T, 'constant', 0, 'DataVariables', @isnumeric);
     T.sum = sum(T{:,2:end},2);
     T.count = sum(T{:,2:end-1}~=0,2);
     T.mean = T.sum./T.count;
     T(:,{'sum', 'count'}) = [];
 elseif strcmp(m, 'mean2')
+    T = fillmissing(T, 'constant', 0, 'DataVariables', @isnumeric);
     % It calculates the mean dividing with the total number of instances
     T.sum = sum(T{:,2:end},2);
     T.count = sum(T{:,2:end-1}== 0|T{:,2:end-1}~= 0 ,2);
     T.mean = T.sum./T.count;
     T(:,{'sum', 'count'}) = [];
 elseif strcmp(m,'conf')
-    % We have to substract the negative value and add it to the final
-    % value, if not we'll have a skeweed histogram
+    T1 = T.f_ext;
+    T(:,{'f_ext'}) = [];
+    T = fillmissing(T, 'linear',2);
+    T
     T.prod = prod(T{:,2:end},2);
     a = sum(T.prod);
     T.mean = T.prod/a;
