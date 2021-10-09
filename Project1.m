@@ -53,7 +53,7 @@ plotTime(T, 'joinNorm');
 
 %% Pool histograms
 
-I = poolDist(T, 'conf', 'logNorm');
+I = poolDist(T, 'mean', 'norm');
 figure()
 A = histogram(I.mean, 50);
 title('Pooled histograms time, conf thecninc')
@@ -64,8 +64,7 @@ title('Pooled histograms time, conf thecninc')
 A = sIndex(I);
 
 % 
-writetable(A,'sindex-normtime-confMethod.txt');
-head(A)
+writetable(A,'sindex-normtime-meanMethod.txt');
 
 
 

@@ -23,12 +23,11 @@ Sad(:,'RealCat') = [];
 % Mean and std from Happy
 % Hap_mu = mean(Hap.mean);
 v = ~isnan(Hap.mean);
-u = ~isnan(Sad.mean);
-
-Hap_std = std(Hap(v,:).mean);
+Hap_temp = Hap(v,:)
+Hap_std = std(Hap.mean)
 % Mean and std from Sad
 % Sad_mu = mean(Sad.mean);
-Sad_std = std(Sad(u,:).mean);
+Sad_std = std(Sad.mean)
 
 
 % Change some labels for better understanding.
