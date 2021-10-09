@@ -4,7 +4,7 @@ clc; clear all;
 % Read the file.txt
 
 % Remember to add to path the Stimulus folder.
-X = readtable('cleaned_data.txt');
+X = readtable('results_All.txt');
 
 %{
 R-Happy: 140
@@ -46,27 +46,42 @@ histogram(T.logNorm)
 % Normalized logtime data
 plotTime(T,'joinNLog');
 
-plotTime(T,'norm');
+plotTime(T,'no');
 
 % Normalized norlmal time
 plotTime(T, 'joinNorm');
 
 %% Pool histograms
 
-I = poolDist(T, 'conf', 'logNorm');
+I = poolDist(T, 'mean');
 figure()
-A = histogram(I.mean, 50);
-title('Pooled histograms time, conf thecninc')
-%saveas(gcf,('sindex-normtime-mean2Method.png'));
-%imwrite(histogram(I.mean, 50), 'sindex-normtime-meanMethod');
+histogram(I.mean, 50)
+title('Pooled histograms confiisji')
 
-%% 
-A = sIndex(I);
+[A, B] = sIndex(I);
+figure()
+histogram(A.mean)
 
-% 
-writetable(A,'sindex-normtime-confMethod.txt');
-head(A)
+%{
+Azeros = A.mean > (A.mu + 3 * A.sigma);
+A2 = A.mean < (A.mu + A.sigma) & A.mean > (A.mu - 3*A.sigma);
+Aones = A.mean < (A.mu - 3*A.sigma);
+%}
 
+A.sindex = zeros(length(A.mean),1);
+
+for i = 1:length(A.mean)
+    if A{i,'mean'} > (A{i,'mu'} + 3*A{i, 'sigma'})
+        A.sindex(i) = 0;
+    elseif (A{i,'mean'} < (A{i,'mu'} + 3*A{i, 'sigma'})) && (A{i,'mean'} > (A{i,'mu'} - 3*A{i, 'sigma'}));
+        A.sindex(i) = 1 - (A{i,'mean'}/(A.mu(i) + (3*A{i, 'sigma'})));
+    elseif A{i,'mean'} < (A{i,'mu'} - 3*A{i, 'sigma'})
+        A.sindex(i) = 1;
+    else 
+        A.sindex(i) = 999999999999;
+
+    end 
+end 
 
 
 
@@ -84,8 +99,6 @@ end
 
 P = I(1:3,:);
 sum(P{:,2:end},2)
-
-
 
 
 

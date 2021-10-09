@@ -69,7 +69,6 @@ else
 end
 
 
-
 % Create a new column with the means of the time responses. The mean is
 % calculated with the data that we have. If some value is missing due a
 % classification, error, the total number will be N-1
@@ -90,10 +89,8 @@ elseif strcmp(m, 'mean2')
 elseif strcmp(m,'conf')
     T1 = T.f_ext;
     T(:,{'f_ext'}) = [];
-    T = T{:,:};
-    T = fillmissing(T, 'linear');
-    T = array2table(T)
-    T = [T1 T];
+    T = fillmissing(T, 'linear',2);
+    T
     T.prod = prod(T{:,2:end},2);
     a = sum(T.prod);
     T.mean = T.prod/a;
