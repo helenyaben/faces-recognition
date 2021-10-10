@@ -75,9 +75,7 @@ handles.subject_id = input('Enter the subject ID (integer): ');
 
 rng(handles.subject_id);
 
-results_file_name = strcat("results", "_", string(handles.subject_id),'.txt')
-
-handles.logfile = fopen(results_file_name, 'w');
+handles.logfile = fopen('results' + handles.subject_id +'.txt', 'a');
 
 handles.files = handles.files(randperm(length(handles.files)));
 
@@ -107,8 +105,8 @@ function figure1_WindowKeyPressFcn(hObject, eventdata, handles)
      imshow(handles.X{handles.index},[]);
      handles.time = tic;
  else
-     disp('Answer: ');
-     if strcmp(keyPressed, '1') || strcmp(keyPressed, '2') || strcmp(keyPressed, '3') || strcmp(keyPressed, '4') || strcmp(keyPressed, '5') 
+     disp('here');
+     if strcmp(keyPressed, '1') || strcmp(keyPressed, '2') || strcmp(keyPressed, '3') || strcmp(keyPressed, '4') || strcmp(keyPressed, '5') || strcmp(keyPressed, '6') || strcmp(keyPressed, '7')
          if keyPressed == '1'
              disp('1');
              answer = 1;
@@ -124,8 +122,14 @@ function figure1_WindowKeyPressFcn(hObject, eventdata, handles)
          elseif keyPressed == '5'
              disp('5');
              answer = 5;
+         elseif keyPressed == '6'
+             disp('6');
+             answer = 6;
+        elseif keyPressed == '7'
+             disp('7');
+             answer = handles.textRight.String;
          end
-         fprintf(handles.logfile, '%d,%s,%s\n', handles.subject_id, handles.files(handles.index).name, string(answer));
+         fprintf(handles.logfile, '%d,%d,%s,%s,%.4f\n', handles.subject_id, handles.index, handles.files(handles.index).name, answer);
          handles.output = hObject;
          handles.index = handles.index + 1;
          if handles.index <= handles.numfiles
@@ -133,7 +137,7 @@ function figure1_WindowKeyPressFcn(hObject, eventdata, handles)
              drawnow;
              java.lang.Thread.sleep(550);
              imshow(handles.X{handles.index},[]);
-             handles.textStart.String = sprintf('%d\n', handles.index);
+             handles.textStart.String = sprintf('%d/%d', handles.index, handles.numfiles);
          else
             closereq
             disp('End of the experiment');
